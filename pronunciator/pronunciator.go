@@ -1,4 +1,4 @@
-package main
+package pronunciator
 
 import (
 	"bufio"
@@ -10,6 +10,91 @@ import (
 	"strings"
 )
 
+var arphabetToIPA = map[string]string{
+	"AA": "ɑ",
+	"AE": "æ",
+	"AH": "ʌ",
+	"AO": "ɔ",
+	"AW": "aʊ",
+	"AY": "aɪ",
+	"B":  "b",
+	"CH": "tʃ",
+	"D":  "d",
+	"DH": "ð",
+	"EH": "ɛ",
+	"ER": "ɝ",
+	"EY": "eɪ",
+	"F":  "ɾ",
+	"G":  "ɡ",
+	"HH": "h",
+	"IH": "ɪ",
+	"IY": "i",
+	"JH": "dʒ",
+	"K":  "k",
+	"L":  "l",
+	"M":  "m",
+	"N":  "n",
+	"NG": "ŋ",
+	"OW": "oʊ",
+	"OY": "ɔɪ",
+	"P":  "p",
+	"R":  "ɹ",
+	"S":  "s",
+	"SH": "ʃ",
+	"T":  "t",
+	"TH": "θ",
+	"UW": "u",
+	"UH": "ʊ",
+	"V":  "v",
+	"W":  "w",
+	"Y":  "j",
+	"Z":  "z",
+	"ZH": "ʒ",
+}
+
+var simplifySounds = map[string]string{
+	"AA": "A",
+	"AE": "a",
+	"AH": "ʌ",
+	"AO": "ao",
+	"AW": "Au",
+	"AY": "ai",
+	"B":  "b",
+	"CH": "ch",
+	"D":  "d",
+	"DH": "D",
+	"EH": "E",
+	"ER": "or",
+	"EY": "ei",
+	"F":  "f",
+	"G":  "ɡ",
+	"HH": "J",
+	"IH": "i",
+	"IY": "ii",
+	"JH": "y",
+	"K":  "k",
+	"L":  "l",
+	"M":  "m",
+	"N":  "n",
+	"NG": "n",
+	"OW": "Ou",
+	"OY": "Oy",
+	"P":  "p",
+	"R":  "r",
+	"S":  "s",
+	"SH": "ʃ",
+	"T":  "t",
+	"TH": "tt",
+	"UW": "U",
+	"UH": "Uu",
+	"V":  "v",
+	"W":  "w",
+	"Y":  "y",
+	"Z":  "z",
+	"ZH": "zz",
+}
+
+
 type ElementType int
 
 const (
@@ -20,6 +105,13 @@ const (
 
 // en dictionary se van a cargar todas las palabras que contiene el archivo cmudict
 var dictionary = make(map[string]string)
+
+type Format int
+
+const (
+	Simplified Format = iota
+	Ipa
+)
 
 type Element struct {
 	elementType ElementType

@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "name": "traductorWS",
+  "builds": [
+    {
+      "src": "main.go",
+      "use": "@now/go@canary"
+    }
+  ],
+  "build": {
+    "env": {
+      "GO111MODULE": "on"
+    }
+  }
+
+}
